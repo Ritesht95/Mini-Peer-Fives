@@ -8,7 +8,8 @@
 <body>
     <h1>Mini Peer Fives</h1>
 
-    <table>
+    <h3>All Users</h3>
+    <table border="1">
         <tr>
             <th>#</th>
             <th>Name</th>
@@ -16,6 +17,13 @@
             <th>Rewards</th>
             <th>Login</th>
         </tr>
+        <script>
+            async function main() {
+                const res = await fetch("http://localhost:3001/api/user");
+                const data = await res.json();
+            }
+            main();
+        </script>
     </table>
 </body>
 </html>
