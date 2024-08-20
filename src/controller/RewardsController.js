@@ -89,12 +89,12 @@ class RewardsController {
 
             const _giver = await prisma.user.findUnique({
                 where: {
-                    id: givenById
+                    id: pointsTransaction.givenById
                 }
             });
             const _receiver = await prisma.user.findUnique({
                 where: {
-                    id: givenToId
+                    id: pointsTransaction.givenToId
                 }
             });
             if (!_giver) {
@@ -110,7 +110,7 @@ class RewardsController {
                     id: _giver.id,
                 },
                 data: {
-                    points: _giver.points + points
+                    points: _giver.points + pointsTransaction.points
                 }
             }); 
 
@@ -119,9 +119,15 @@ class RewardsController {
                     id: _receiver.id,
                 },
                 data: {
-                    rewards: _receiver.rewards - points
+                    rewards: _receiver.rewards - pointsTransaction.points
                 }
             }); 
+
+            await prisma.rewardHistory.delete({
+                where: {
+                    id: pointsTransaction.id
+                }
+            });
 
             res.json({ message: "Deleted points transaction successfully!", data: pointsTransaction });
         } catch (err) {
